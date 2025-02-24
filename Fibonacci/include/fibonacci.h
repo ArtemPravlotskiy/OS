@@ -5,4 +5,22 @@
 #ifndef FIBONACCI_H
 #define FIBONACCI_H
 
+#include <vector>
+
+class Fibonacci {
+public:
+    Fibonacci();
+    ~Fibonacci();
+
+    std::vector<unsigned long> getSequence(int n) const;
+
+protected:
+    unsigned long nextNum(const unsigned long &a, const unsigned long &b) const;
+
+private:
+    void validateInput(const int &n) const;
+
+    friend class FibonacciTest;
+};
+
 #endif //FIBONACCI_H
