@@ -12,7 +12,7 @@ Fibonacci::~Fibonacci() {
 }
 
 void Fibonacci::validateInput(const int &n) const {
-    if (n < 0) {
+    if (n <= 0) {
         throw std::invalid_argument("n must be positive");
     }
 }
@@ -35,7 +35,7 @@ std::vector<unsigned long> Fibonacci::getSequence(int n) const {
     }
     sequence.push_back(1);
 
-    for (int i = 2; i <= n; ++i) {
+    for (int i = 2; i < n; ++i) {
         sequence.push_back(nextNum(sequence[i-1], sequence[i-2]));
     }
     return sequence;
