@@ -19,8 +19,6 @@ protected:
 
 private:
     void validateInput(const int &n) const;
-
-    friend class FibonacciTest;
 };
 
 #endif //FIBONACCI_H
