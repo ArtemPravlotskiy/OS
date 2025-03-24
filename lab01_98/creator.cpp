@@ -5,7 +5,6 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
-#include <cstring>
 
 struct employee {
     int num;            // id num
