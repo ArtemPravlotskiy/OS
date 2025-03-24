@@ -3,6 +3,8 @@ project(lab01_98)
 
 set(CMAKE_CXX_STANDARD 98)
 
-add_executable(lab01_98 main.cpp
-        creator.cpp
-        reporter.cpp)
+add_executable(lab01_98_main main.cpp)
+
+add_executable(lab01_98_creator creator.cpp)
+
+add_executable(lab01_98_reporter reporter.cpp)
