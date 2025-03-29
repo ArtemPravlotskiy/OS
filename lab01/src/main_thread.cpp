@@ -37,13 +37,13 @@ void printReportFile(const char* filename) {
 
 void runCreator(const std::string& binFilename, int count) {
     std::ostringstream creatorCmd;
-    creatorCmd << "lab01_98_creator.exe " << binFilename << " " << count;
+    creatorCmd << "creator.exe " << binFilename << " " << count;
     system(creatorCmd.str().c_str());
 }
 
 void runReporter(const std::string& binFilename, const std::string& reportFilename, double payRate) {
     std::ostringstream reporterCmd;
-    reporterCmd << "lab01_98_reporter.exe " << binFilename << " " << reportFilename << " " << payRate;
+    reporterCmd << "reporter.exe " << binFilename << " " << reportFilename << " " << payRate;
     system(reporterCmd.str().c_str());
 }
 
