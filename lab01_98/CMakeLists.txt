@@ -11,3 +11,5 @@ add_executable(lab01_98_creator creator.cpp
 
 add_executable(lab01_98_reporter reporter.cpp
         employee.h)
+
+add_dependencies(lab01_98_main lab01_98_creator lab01_98_reporter)
