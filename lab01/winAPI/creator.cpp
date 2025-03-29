@@ -5,7 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
-#include "employee.h"
+#include "../employee.h"
 
 int main(int argc, char *argv[]) {
     if (argc < 3) {
