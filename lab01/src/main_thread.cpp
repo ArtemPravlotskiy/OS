@@ -1,9 +1,9 @@
-#include <windows.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
-#include "employee.h"
+#include <thread>
+#include "../include/employee.h"
 
 void printBinaryFile(const char* filename) {
     std::ifstream in(filename, std::ios::binary);
@@ -35,6 +35,18 @@ void printReportFile(const char* filename) {
     in.close();
 }
 
+void runCreator(const std::string& binFilename, int count) {
+    std::ostringstream creatorCmd;
+    creatorCmd << "lab01_98_creator.exe " << binFilename << " " << count;
+    system(creatorCmd.str().c_str());
+}
+
+void runReporter(const std::string& binFilename, const std::string& reportFilename, double payRate) {
+    std::ostringstream reporterCmd;
+    reporterCmd << "lab01_98_reporter.exe " << binFilename << " " << reportFilename << " " << payRate;
+    system(reporterCmd.str().c_str());
+}
+
 int main() {
     std::string binFilename;
     int count;
@@ -43,34 +55,8 @@ int main() {
     std::cout << "Enter number of employees: ";
     std::cin >> count;
 
-    std::ostringstream creatorCmd;
-    creatorCmd << "lab01_98_creator.exe " << binFilename << " " << count;
-
-    STARTUPINFO siCreator;
-    PROCESS_INFORMATION piCreator;
-    ZeroMemory(&siCreator, sizeof(siCreator));
-    siCreator.cb = sizeof(siCreator);
-    ZeroMemory(&piCreator, sizeof(piCreator));
-
-    if (!CreateProcess(NULL,
-        const_cast<char*>(creatorCmd.str().c_str()),
-        NULL,
-        NULL,
-        FALSE,
-        0,
-        NULL,
-        NULL,
-        &siCreator,
-        &piCreator))
-    {
-        std::cerr << " Error creating process creator. Error code: "
-            << GetLastError() << "\n";
-        return 1;
-    }
-
-    WaitForSingleObject(piCreator.hProcess, INFINITE);
-    CloseHandle(piCreator.hProcess);
-    CloseHandle(piCreator.hThread);
+    std::thread creatorThread(runCreator, binFilename, count);
+    creatorThread.join();
 
     printBinaryFile(binFilename.c_str());
 
@@ -81,33 +67,8 @@ int main() {
     std::cout << "\nEnter pay rate: ";
     std::cin >> payRate;
 
-    std::ostringstream reporterCmd;
-    reporterCmd << "lab01_98_reporter.exe " << binFilename << " " << reportFilename << " " << payRate << "\n";
-
-    STARTUPINFO siReporter;
-    PROCESS_INFORMATION piReporter;
-    ZeroMemory(&siReporter, sizeof(siReporter));
-    siReporter.cb = sizeof(siReporter);
-    ZeroMemory(&piReporter, sizeof(piReporter));
-
-    if (!CreateProcess(NULL,
-        const_cast<char*>(reporterCmd.str().c_str()),
-        NULL,
-        NULL,
-        FALSE,
-        0,
-        NULL,
-        NULL,
-        &siReporter,
-        &piReporter))
-    {
-        std::cerr << "Error creating report process. Error code: " << GetLastError() << "\n";
-        return 1;
-    }
-
-    WaitForSingleObject(piReporter.hProcess, INFINITE);
-    CloseHandle(piReporter.hProcess);
-    CloseHandle(piReporter.hThread);
+    std::thread reporterThread(runReporter, binFilename, reportFilename, payRate);
+    reporterThread.join();
 
     printReportFile(reportFilename.c_str());
 
