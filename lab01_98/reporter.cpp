@@ -84,6 +84,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    printReport(out, binFilename, entries);
+
     out.close();
     std::cout << "Report successfully saved in " << reportFilename << "\n";
     return 0;
