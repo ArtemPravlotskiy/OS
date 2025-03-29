@@ -44,7 +44,7 @@ int main() {
     std::cin >> count;
 
     std::ostringstream creatorCmd;
-    creatorCmd << "lab01_98_creator.exe " << binFilename << " " << count;
+    creatorCmd << "creator.exe " << binFilename << " " << count;
 
     STARTUPINFO siCreator;
     PROCESS_INFORMATION piCreator;
@@ -82,7 +82,7 @@ int main() {
     std::cin >> payRate;
 
     std::ostringstream reporterCmd;
-    reporterCmd << "lab01_98_reporter.exe " << binFilename << " " << reportFilename << " " << payRate << "\n";
+    reporterCmd << "reporter.exe " << binFilename << " " << reportFilename << " " << payRate << "\n";
 
     STARTUPINFO siReporter;
     PROCESS_INFORMATION piReporter;
