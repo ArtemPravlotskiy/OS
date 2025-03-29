@@ -16,4 +16,4 @@ set_target_properties(lab01_thread_main PROPERTIES CXX_STANDARD 11)
 add_dependencies(lab01_winAPI_main lab01_creator lab01_reporter)
 add_dependencies(lab01_thread_main lab01_creator lab01_reporter)
 
-#target_link_libraries(tests gtest)
+target_link_libraries(tests gtest)
