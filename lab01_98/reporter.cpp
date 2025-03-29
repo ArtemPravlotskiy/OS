@@ -11,13 +11,13 @@
 
 struct employee {
     int num;
-    char name[21];
+    char name[10];
     double hours;
 };
 
 struct reportEntry {
     int num;
-    char name[21];
+    char name[10];
     double hours;
     double salary;
 };

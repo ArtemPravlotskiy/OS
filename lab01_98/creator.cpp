@@ -8,7 +8,7 @@
 
 struct employee {
     int num;            // id num
-    char name[21];      // name
+    char name[10];      // name
     double hours;       // number of hours worked
 };
 
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
         std::cout << "Enter info for employee " << i + 1 << ":\n";
         std::cout << "Employee number: ";
         std::cin >> emp.num;
-        std::cout << "Employee name (up to 20 characters, without spaces): ";
+        std::cout << "Employee name (up to 9 characters, without spaces): ";
         std::cin >> emp.name;
         std::cout << "Employee hours: ";
         std::cin >> emp.hours;

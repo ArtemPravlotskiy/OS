@@ -7,7 +7,7 @@
 
 struct employee {
     int num;
-    char name[21];
+    char name[10];
     double hours;
 };
 
@@ -50,7 +50,7 @@ int main() {
     std::cin >> count;
 
     std::ostringstream creatorCmd;
-    creatorCmd << "creator.exe " << binFilename << " " << count;
+    creatorCmd << "lab01_98_creator.exe " << binFilename << " " << count;
 
     STARTUPINFO siCreator;
     PROCESS_INFORMATION piCreator;
@@ -88,7 +88,7 @@ int main() {
     std::cin >> payRate;
 
     std::ostringstream reporterCmd;
-    reporterCmd << "reporter.exe " << binFilename << " " << reportFilename << " " << payRate << "\n";
+    reporterCmd << "lab01_98_reporter.exe " << binFilename << " " << reportFilename << " " << payRate << "\n";
 
     STARTUPINFO siReporter;
     PROCESS_INFORMATION piReporter;
