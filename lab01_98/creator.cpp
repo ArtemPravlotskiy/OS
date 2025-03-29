@@ -5,12 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
-
-struct employee {
-    int num;            // id num
-    char name[10];      // name
-    double hours;       // number of hours worked
-};
+#include "employee.h"
 
 int main(int argc, char *argv[]) {
     if (argc < 3) {

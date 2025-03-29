@@ -8,12 +8,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <cstring>
-
-struct employee {
-    int num;
-    char name[10];
-    double hours;
-};
+#include "employee.h"
 
 struct reportEntry {
     int num;
