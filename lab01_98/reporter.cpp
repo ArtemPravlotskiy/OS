@@ -21,6 +21,29 @@ bool compareByNum(const reportEntry &a, const reportEntry &b) {
     return a.num < b.num;
 }
 
+void printReport (std::ostream& out, const char* binFilename, const std::vector<reportEntry> &entries) {
+    out << "File report \"" << binFilename << "\"\n";
+
+    out << std::left
+        << std::setw(10) << "Employee #"
+        << std::setw(10) << "Name"
+        << std::setw(10) << "Hours"
+        << std::setw(10) << "Salary"
+        << "\n";
+
+    out << std::string(40, '-') << "\n";
+
+    for (size_t i = 0; i < entries.size(); i++) {
+        out << std::left
+            << std::setw(10) << entries[i].num
+            << std::setw(10) << entries[i].name
+            << std::setw(10) << entries[i].hours
+            << std::setw(10) << std::fixed << std::setprecision(2)
+            << std::setw(10) << entries[i].salary
+            << "\n";
+    }
+}
+
 int main(int argc, char *argv[]) {
     if (argc < 4) {
         std::cerr << "Usage: reporter <binary_filename> <report_filename> <pay_rate>\n";
@@ -59,16 +82,6 @@ int main(int argc, char *argv[]) {
     if (!out) {
         std::cerr << "Cannot open report file " << reportFilename << " for writing.\n";
         return 1;
-    }
-
-    out << "File report \"" << binFilename << "\"\n";
-    out << "Employee num\tName\tHours\tSalary\n";
-    for (size_t i = 0; i < entries.size(); i++) {
-        out << entries[i].num << "\t"
-            << entries[i].name << "\t"
-            << entries[i].hours << "\t"
-            << std::fixed << std::setprecision(2)
-            << entries[i].salary << "\n";
     }
 
     out.close();
