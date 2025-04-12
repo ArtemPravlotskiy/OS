@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int* array = nullptr;
+int* array = NULL;
 int arraySize = 0;
 int Min = 0, Max = 0;
 double avg = 0.0;
@@ -46,6 +46,49 @@ DWORD WINAPI ThreadAvg(LPVOID lpParam) {
         Sleep(12);
     }
     avg = static_cast<double>(sum) / arraySize;
+
+    return 0;
+}
+
+int main() {
+    cout << "Enter array size: ";
+    cin >> arraySize;
+    if (arraySize < 1) {
+        cout << "Invalid array size!" << endl;
+    }
+
+    array = new int[arraySize];
+    cout << "Enter array elements: ";
+    for (int i = 0; i < arraySize; ++i) {
+        cin >> array[i];
+    }
+
+    HANDLE hThreadMinMax = CreateThread(NULL, 0, ThreadMinMax, NULL, 0, NULL);
+    HANDLE hThreadAvg = CreateThread(NULL, 0, ThreadAvg, NULL, 0, NULL);
+
+    if (hThreadMinMax == NULL || hThreadAvg == NULL) {
+        cout << "Error creating thread!" << endl;
+        delete[] array;
+        return 1;
+    }
+
+    WaitForSingleObject(hThreadMinMax, INFINITE);
+    WaitForSingleObject(hThreadAvg, INFINITE);
+
+    for (int i = 0; i < arraySize; ++i) {
+        if (array[i] == Min || array[i] == Max) {
+            array[i] = static_cast<int>(avg);
+        }
+    }
+
+    cout << "New array is: ";
+    for (int i = 0; i < arraySize; ++i) {
+        cout << array[i] << " ";
+    }
+
+    delete[] array;
+    CloseHandle(hThreadMinMax);
+    CloseHandle(hThreadAvg);
 
     return 0;
 }
