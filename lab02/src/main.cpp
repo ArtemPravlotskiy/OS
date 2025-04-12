@@ -14,7 +14,7 @@ double avg = 0.0;
 
 DWORD WINAPI ThreadMinMax(LPVOID lpParam) {
     if (arraySize <= 0) {
-        return 0;
+        return 1;
     }
 
     Min = array[0];
@@ -37,7 +37,7 @@ DWORD WINAPI ThreadMinMax(LPVOID lpParam) {
 
 DWORD WINAPI ThreadAvg(LPVOID lpParam) {
     if (arraySize <= 0) {
-        return 0;
+        return 1;
     }
 
     int sum = 0;
