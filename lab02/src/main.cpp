@@ -34,3 +34,19 @@ DWORD WINAPI ThreadMinMax(LPVOID lpParam) {
 
     return 0;
 }
+
+DWORD WINAPI ThreadAvg(LPVOID lpParam) {
+    if (arraySize <= 0) {
+        return 0;
+    }
+
+    int sum = 0;
+    for (int i = 0; i < arraySize; ++i) {
+        sum += array[i];
+        Sleep(12);
+    }
+    avg = static_cast<double>(sum) / arraySize;
+
+    return 0;
+}
+
