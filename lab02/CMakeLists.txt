@@ -7,5 +7,7 @@ add_subdirectory(${GOOGLETEST_DIR} googletest)
 #add_executable(run_tests tests/test_employee.cpp)
 
 add_executable(main src/main.cpp)
+add_executable(mainThread src/mainThread.cpp)
+
 set_target_properties(main PROPERTIES CXX_STANDARD 98)
-#set_target_properties( PROPERTIES CXX_STANDARD 11)
+set_target_properties(mainThread PROPERTIES CXX_STANDARD 11)
