@@ -1,13 +1,13 @@
 //
-// Created by pravl on 12.04.2025.
+// Created by pravl on 14.04.2025.
 //
 
+#include <iostream>
 #include <vector>
 #include <thread>
 #include <chrono>
 #include <stdexcept>
-
-using namespace std;
+#include "proccessArray.h"
 
 std::vector<int> processArray(const std::vector<int>& array) {
     int n = array.size();
@@ -33,6 +33,7 @@ std::vector<int> processArray(const std::vector<int>& array) {
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(7));
         }
+        std::cout << "Min: " << minVal << "\n" << "Max: " << maxVal << "\n";
     });
 
     std::thread avgThread([&]() {
@@ -40,12 +41,12 @@ std::vector<int> processArray(const std::vector<int>& array) {
             sum += array[i];
             std::this_thread::sleep_for(std::chrono::milliseconds(12));
         }
+        avg = static_cast<double>(sum) / n;
+        std::cout << "Average: " << avg << "\n";
     });
 
     minMaxThread.join();
     avgThread.join();
-
-    avg = static_cast<double>(sum) / n;
 
     std::vector<int> newArray = array;
     for (int i = 0; i < n; ++i) {
@@ -56,3 +57,4 @@ std::vector<int> processArray(const std::vector<int>& array) {
 
     return newArray;
 }
+

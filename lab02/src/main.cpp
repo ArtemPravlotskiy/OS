@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int* array = NULL;
+int* arr = NULL;
 int arraySize = 0;
 int Min = 0, Max = 0;
 double avg = 0.0;
@@ -17,20 +17,21 @@ DWORD WINAPI ThreadMinMax(LPVOID lpParam) {
         return 1;
     }
 
-    Min = array[0];
-    Max = array[0];
+    Min = arr[0];
+    Max = arr[0];
 
     for (int i = 1; i < arraySize; ++i) {
-        if (array[i] < Min) {
-            Min = array[i];
+        if (arr[i] < Min) {
+            Min = arr[i];
         }
         Sleep(7);
 
-        if (array[i] > Max) {
-            Max = array[i];
+        if (arr[i] > Max) {
+            Max = arr[i];
         }
         Sleep(7);
     }
+    std::cout << "Min: " << Min << "\nMax: " << Max << "\n";
 
     return 0;
 }
@@ -42,10 +43,11 @@ DWORD WINAPI ThreadAvg(LPVOID lpParam) {
 
     int sum = 0;
     for (int i = 0; i < arraySize; ++i) {
-        sum += array[i];
+        sum += arr[i];
         Sleep(12);
     }
     avg = static_cast<double>(sum) / arraySize;
+    std::cout << "Avg: " << avg << "\n";
 
     return 0;
 }
@@ -57,10 +59,10 @@ int main() {
         cout << "Invalid array size!" << endl;
     }
 
-    array = new int[arraySize];
+    arr = new int[arraySize];
     cout << "Enter array elements: ";
     for (int i = 0; i < arraySize; ++i) {
-        cin >> array[i];
+        cin >> arr[i];
     }
 
     HANDLE hThreadMinMax = CreateThread(NULL, 0, ThreadMinMax, NULL, 0, NULL);
@@ -68,7 +70,7 @@ int main() {
 
     if (hThreadMinMax == NULL || hThreadAvg == NULL) {
         cout << "Error creating thread!" << endl;
-        delete[] array;
+        delete[] arr;
         return 1;
     }
 
@@ -76,17 +78,17 @@ int main() {
     WaitForSingleObject(hThreadAvg, INFINITE);
 
     for (int i = 0; i < arraySize; ++i) {
-        if (array[i] == Min || array[i] == Max) {
-            array[i] = static_cast<int>(avg);
+        if (arr[i] == Min || arr[i] == Max) {
+            arr[i] = static_cast<int>(avg);
         }
     }
 
     cout << "New array is: ";
     for (int i = 0; i < arraySize; ++i) {
-        cout << array[i] << " ";
+        cout << arr[i] << " ";
     }
 
-    delete[] array;
+    delete[] arr;
     CloseHandle(hThreadMinMax);
     CloseHandle(hThreadAvg);
 

@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <vector>
-#include "processArray.cpp"
+#include "proccessArray.h"
 
 using namespace std;
 
