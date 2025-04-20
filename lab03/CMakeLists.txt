@@ -10,4 +10,4 @@ add_executable(mainWinAPI src/mainWinAPI.cpp)
 add_executable(mainThread src/mainThread.cpp)
 
 set_target_properties(mainWinAPI PROPERTIES CXX_STANDARD 98)
-set_target_properties(mainThread PROPERTIES CXX_STANDARD 11)
+set_target_properties(mainThread PROPERTIES CXX_STANDARD 17)
