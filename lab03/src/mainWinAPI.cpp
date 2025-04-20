@@ -52,10 +52,11 @@ DWORD WINAPI MarkerThread(LPVOID lpParam) {
         }
         else {
             const int impossibleIndex = index;
-            LeaveCriticalSection(&criticalSection);
+            //LeaveCriticalSection(&criticalSection);
 
             printf("Thread marker #%d: Marked elements - %d; Imposssible marked index - %d\n",
                     params->id, markedCount, impossibleIndex);
+            LeaveCriticalSection(&criticalSection);
 
             SetEvent(params->hPauseEvent);
 
@@ -138,11 +139,13 @@ int main() {
             }
         }
 
+        EnterCriticalSection(&criticalSection);
         PrintArray();
 
         int termId = 0;
         std::cout << "Enter term ID: ";
         std::cin >> termId;
+        LeaveCriticalSection(&criticalSection);
 
         if (termId < 1 || termId > markerCount || !active[termId - 1]) {
             std::cout << "Invalid term ID or thread has already terminated. Continue.\n";
