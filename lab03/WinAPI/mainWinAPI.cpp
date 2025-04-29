@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <windows.h>
+#include "marker_logic.h"
 
 int* arr = NULL;
 int arrSize = 0;
@@ -23,61 +24,47 @@ struct MarkerParams {
 DWORD WINAPI MarkerThread(LPVOID lpParam) {
     MarkerParams* params = static_cast<MarkerParams *>(lpParam);
 
-    // Wait start
     WaitForSingleObject(StartEvent, INFINITE);
 
     srand(params->id);
-
     int markedCount = 0;
+
     while (true) {
-        const int randNum = rand();
-        const int index = randNum % arrSize;
-
-        EnterCriticalSection(&criticalSection);
-        if (arr[index] == 0) {
-            LeaveCriticalSection(&criticalSection);
-
+        if (TryMarkOnce(arr, arrSize, params->id, &criticalSection)) {
+            markedCount++;
             Sleep(5);
-
-            EnterCriticalSection(&criticalSection);
-            if (arr[index] == 0) {
-                arr[index] = params->id;
-                markedCount++;
-            }
-            LeaveCriticalSection(&criticalSection);
-
-            Sleep(5);
-
             continue;
         }
-        else {
-            const int impossibleIndex = index;
-            //LeaveCriticalSection(&criticalSection);
 
-            printf("Thread marker #%d: Marked elements - %d; Imposssible marked index - %d\n",
-                    params->id, markedCount, impossibleIndex);
-            LeaveCriticalSection(&criticalSection);
-
-            SetEvent(params->hPauseEvent);
-
-            const HANDLE events[2] = {params->hTerminateEvent, params->hResumeEvent};
-            const DWORD dwWait = WaitForMultipleObjects(2, events, FALSE, INFINITE);
-
-            ResetEvent(params->hPauseEvent);
-            ResetEvent(params->hResumeEvent);
-
-            // if TRUE -> STOP
-            if (dwWait == WAIT_OBJECT_0) {
-                EnterCriticalSection(&criticalSection);
-                for (int i = 0; i < arrSize; ++i) {
-                    if (arr[i] == params->id) {
-                        arr[i] = 0;
-                    }
-                }
-                LeaveCriticalSection(&criticalSection);
-
+        EnterCriticalSection(&criticalSection);
+        int impossibleIndex = -1;
+        for (int i = 0; i < arrSize; ++i) {
+            if (arr[i] != 0 && arr[i] != params->id) {
+                impossibleIndex = i;
                 break;
             }
+        }
+        printf("Thread marker #%d: Marked elements - %d; Imposssible marked index - %d\n",
+               params->id, markedCount, impossibleIndex);
+        LeaveCriticalSection(&criticalSection);
+
+        SetEvent(params->hPauseEvent);
+
+        const HANDLE events[2] = {params->hTerminateEvent, params->hResumeEvent};
+        DWORD dwWait = WaitForMultipleObjects(2, events, FALSE, INFINITE);
+
+        ResetEvent(params->hPauseEvent);
+        ResetEvent(params->hResumeEvent);
+
+        if (dwWait == WAIT_OBJECT_0) {
+            EnterCriticalSection(&criticalSection);
+            for (int i = 0; i < arrSize; ++i) {
+                if (arr[i] == params->id) {
+                    arr[i] = 0;
+                }
+            }
+            LeaveCriticalSection(&criticalSection);
+            break;
         }
     }
 
