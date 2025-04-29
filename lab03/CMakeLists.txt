@@ -7,6 +7,8 @@ add_executable(testWinAPI tests/testWinAPI.cpp
         WinAPI/marker_logic.cpp
         WinAPI/marker_logic.h)
 target_link_libraries(testWinAPI PRIVATE gtest gtest_main)
+add_executable(testThread tests/testThread.cpp)
+target_link_libraries(testThread PRIVATE gtest gtest_main)
 
 add_executable(mainWinAPI WinAPI/mainWinAPI.cpp
         WinAPI/marker_logic.cpp)
